@@ -1,0 +1,46 @@
+services:
+  mysql_db:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: java_to_dev_app_db
+      MYSQL_ROOT_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+
+  backend:
+    depends_on:
+      - mysql_db
+
+    restart: on-failure
+    build: backend
+    ports:
+      - 8889:8889
+    # environment:
+    #   - spring.datasource.url:jdbc:mysql://mysqldb:3306/ecom_db?createDatabaseIfNotExist=true
+    #   - spring.datasource.username:root
+    #   - spring.datasource.password:""
+    links:
+      - mysql_db:app_db
+  # stdin_open: true
+  # tty: true
+
+  frontend:
+    build:
+      context: frontend
+      target: development
+    # networks:
+    #   - client-side
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/code/src:ro
+volumes:
+  db-data:
+    # secrets:
+    #   db-password:
+    #     file: db/password.txt
+networks:
+  springboot-mysql-net:

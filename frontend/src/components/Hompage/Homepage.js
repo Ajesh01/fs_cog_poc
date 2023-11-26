@@ -7,25 +7,19 @@ function Homepage() {
 
   useEffect(() => {
     let mounted = true;
-    // console.log("USER", user);
     fetch("http://localhost:8888/products/get-all" 
-    // +user
     ,{
         method: "GET",
         headers: { "Content-Type": "application/json" }
         // body: JSON.stringify(myproducts)
 
     }).then(async response => {
-        // const data = await response.json();
         const data = await response.json();
 
         setproducts(data);
 
         console.log("data", data);
-        // if (mounted)
-            // setmyproducts(data);
-        // console.log("setmyproducts - length of cart", myproducts.length);
-        //isCartEmpty = myproducts.length;
+     
     })
 
     return () => mounted = false;

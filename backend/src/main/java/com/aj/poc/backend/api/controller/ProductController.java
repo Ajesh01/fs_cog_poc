@@ -52,6 +52,15 @@ public class ProductController {
 
     }
 
+//    @PostMapping("/products/get-all")
+//    public List<Products>  saveAllProdcuts(@RequestBody List<Products> productsList){
+//
+//
+////        productsService.getAllProducts();
+//        return productsService.getAllProducts();
+//
+//    }
+
 
     @DeleteMapping("/del-products/{id}")
     public void deleteProducts(@PathVariable("id") int id) {

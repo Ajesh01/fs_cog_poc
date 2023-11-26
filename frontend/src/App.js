@@ -5,6 +5,7 @@ import Nav from './components/Navbarr/Navbarr';
 import Footer from './components/Footer/Footer';
 import Cartpage from './components/Cartpage/Cartpage';
 import {BrowserRouter as Router,Route,Routes,withRouter,} from "react-router-dom";
+import Inventory from './components/Inventory/Inventory';
 
 function App() {
   return (
@@ -20,6 +21,11 @@ function App() {
     
 
           <Route path="/cart" element={<Cartpage />} />
+
+          <Route path="/inventory" element={<Inventory />} />
+
+
+          
         </Routes>
     
     <Footer></Footer>
