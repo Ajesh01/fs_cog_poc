@@ -59,11 +59,12 @@ public class ProductController {
         productsService.deleteProducts(id);
     }
 
-    @PutMapping("/edit-products/{id}")
-    public Products updateProducts(@RequestBody Products product,@PathVariable("id") int id) {
+    @PostMapping("/products/edit")
+    public String updateProducts(@RequestBody Products product) {
 
-        productsService.update(product, id);
-        return product;
+        int id2 = product.getId();
+        productsService.update(product, id2);
+        return "successfully updated id:"+id2;
     }
 
 }

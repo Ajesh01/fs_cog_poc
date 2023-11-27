@@ -21,9 +21,9 @@ function Navbarr() {
           {/* <li className="nav-item">
             <a className="nav-link" href="/cart">Cart</a>
           </li> */}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a className="nav-link disabled" href="#">Disabled</a>
-          </li>
+          </li> */}
           <li className="nav-item">
           <a className="nav-link" href="/inventory">Inventory 
             </a>

@@ -4,6 +4,8 @@ import axios from "axios";
 const Inventory = () => {
     const [state, setState] = useState([]);
     const [products, setproducts] = useState([]);
+    const [products2, setproducts2] = useState([]);
+
     const [edited, setEdited] = useState({})
     const [isButtonVisible, setIsButtonVisible] = useState(false);
 
@@ -21,6 +23,10 @@ const Inventory = () => {
 
           setproducts(data);
 
+          data.forEach((product) =>{
+           products2[product["id"]] = product;
+          });
+
   
           // console.log("dat2a", edited);
        
@@ -29,15 +35,24 @@ const Inventory = () => {
       return () => mounted = false;
   }, []);
 
-  console.log(products);
+  console.log(products2);
 
     // const [products, setproducts] = useState([{ id: 1, defaultValue: '' }]);
 
     const handleAddRow = () => {
-        console.log(products)
-       const newId = products.length + 1;
+        // console.log(products)
+      //  const newId = products.length + 1;
+        let key2 = Array.from(products2.keys())
+        key2  = key2.map((x) =>parseInt(x));
+       var newId = Math.max.apply(Math, key2) + 1;
+       console.log(newId)
+
        console.log("new:"+newId)
        setproducts([...products, { id: newId, name: '',quantity:0,description:"",price:0 }]);
+       setproducts2([...products2, { id: newId, name: '',quantity:0,description:"",price:0 }]);
+       console.log(setproducts2)
+
+
     };
    
     const handleDeleteRow = (e) => {
@@ -63,16 +78,11 @@ const Inventory = () => {
 
     };
 
-    const handleSaveAll = (id)=>{
-      // console.log(products.filter((row) => row.id !== id));
-      console.log(products);
-
-for (const [key, value] of Object.entries(edited)) {
-
-  console.log(products[key]);
+    function saveput(product3) {
+      // console.log(product3)
 
       axios
-      .put("http://localhost:8889/edit-products/"+products[key]["id"], products[key])
+      .post("http://localhost:8889/products/edit", product3)
 
       .then((response4) => {
         console.log("this is the response: " + response4.data);
@@ -83,17 +93,28 @@ for (const [key, value] of Object.entries(edited)) {
         },
         (err) => {
           console.log(err);
-          // setErr(err);
-          //   "Since Available Quantity is Low!! The ordered quantity is reduced"
-          // );
-          //  navigate("/seller/home");
-          // setIsLoaded(true);
         }
       );
+    }
+    
+    const handleSaveAll = (id)=>{
 
-}
+      // console.log(products);
+  
+      // products2.forEach(saveput);
 
-setIsButtonVisible(false);
+      for (var key in products2) {
+        if (products2.hasOwnProperty(key)) {
+          saveput(products2[key])
+        }
+    }
+
+      // console.log(products[key]);
+
+      setIsButtonVisible(false);
+
+      window.location.reload(false);
+
    };
  
    
@@ -101,15 +122,14 @@ setIsButtonVisible(false);
       console.log(e.target.name);
 
       setIsButtonVisible(true);
-      //  const newproducts = products.map((row) =>
-      //    row.id === id ? { ...row, defaultValue: e.target.defaultValue } : row
-      //  );
-      let iid = parseInt(e.target.name)
-    
-        edited[iid-1] = true;
-        
 
-      products[iid-1][e.target.id] = e.target.value
+      let iid = e.target.name
+    
+        // edited[iid-1] = true;
+      console.log(products2);
+      
+
+      products2[iid][e.target.id] = e.target.value
       // console.log(temp);
 
        console.log(e.target.value);
