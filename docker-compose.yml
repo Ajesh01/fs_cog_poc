@@ -1,0 +1,35 @@
+services:
+  mysql_db:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: java_to_dev_app_db
+      MYSQL_ROOT_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+
+  backend:
+    depends_on:
+      - mysql_db
+
+    restart: on-failure
+    build: backend
+    ports:
+      - 8889:8889
+
+    links:
+      - mysql_db:app_db
+
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: frontend
+      target: development
+
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/code/src:ro
