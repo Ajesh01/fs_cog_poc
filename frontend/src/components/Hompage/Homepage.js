@@ -7,7 +7,7 @@ function Homepage() {
 
   useEffect(() => {
     let mounted = true;
-    fetch("http://localhost:8888/products/get-all" 
+    fetch("http://localhost:8889/products/get-all" 
     ,{
         method: "GET",
         headers: { "Content-Type": "application/json" }
